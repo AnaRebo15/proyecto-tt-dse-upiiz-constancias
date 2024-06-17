@@ -1,0 +1,127 @@
+#search-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+#search-input {
+    border-radius: 5px 0 0 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+#search-button {
+    border-radius: 0 5px 5px 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+main {
+    flex: 1;
+    background-color: #f1f1f1;
+    overflow: auto;
+    padding: 20px; /* Ajusta según sea necesario */
+    min-height: calc(90vh - 10px); /* Ajusta según sea necesario */
+}
+.footer {
+    background-color: #5B262E;
+    color: white;
+    padding: 20px 0;
+    width: 100%;
+  }
+  
+  .footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  
+  .footer h6 {
+    margin: 0 0 15px;
+    font-size: 1.2em;
+  }
+  
+  .footer .contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 50px; /* Separación grande entre los elementos */
+    font-size: 1em;
+    margin-bottom: 20px;
+  }
+  
+  .footer .contact-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .footer .contact-item span {
+    margin-right: 10px;
+  }
+  
+  .footer .contact-item a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .footer .footer-credits {
+    margin-top: 20px;
+    border-top: 1px solid #ffffff80; /* Borde superior translúcido */
+    padding-top: 10px;
+    font-size: 0.9em;
+    color: #d3d3d3; /* Color de texto más claro */
+  }
+  
+  .footer small {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.9em;
+  }
+
+#suggestion {
+    width: 100%; /* Ancho igual al input */
+    background-color: #fff; /* Color de fondo */
+    border: 1px solid #f1f1f1; /* Borde */
+    border-top: none; /* Elimina el borde superior */
+    border-radius: 0 0 5px 5px; /* Bordes redondeados solo en la parte inferior */
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+    max-height: 200px; /* Altura máxima para hacer scroll si es necesario */
+    overflow-y: auto; /* Habilita el scroll vertical si el contenido excede la altura máxima */
+}
+
+#suggestion ul {
+    list-style: none; /* Elimina los estilos de lista */
+    padding: 0; /* Elimina el relleno de la lista */
+    margin: 0; /* Elimina el margen de la lista */
+}
+
+#suggestion ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc; /* Borde entre cada sugerencia */
+}
+
+#suggestion ul li:last-child {
+    border-bottom: none; /* Elimina el borde inferior del último elemento */
+}
+
+#suggestion ul li:hover {
+    background-color: #f1f1f1; /* Cambia el color de fondo al pasar el ratón */
+}
+
+.campo-invalido {
+    border-color: #911828 !important;
+    background-color: #F4DEDE;
+}
+
+@media (max-width: 768px) {
+  .contact-info {
+    flex-direction: column; /* Cambia la dirección del flexbox a column */
+  }
+  .contact-item {
+    margin-bottom: 1px; /* Agrega un espacio entre cada elemento */
+  }
+}

@@ -1,0 +1,405 @@
+  <!--------------------------------------------------------------- ENCABEZADO ------------------------------------------------------------------>
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fff;">
+    <!-- LOGOS DEL IPN Y DE UPIIZ -->
+    <div class="d-flex align-items-center">&nbsp;&nbsp;&nbsp;
+      <img src="./assets/dist/img/logo-ipn-guinda.png" style="height: 60px;"/>&nbsp;&nbsp;
+      <img src="./assets/dist/img/logo-upiiz.png" style="height: 60px;"/>&nbsp;&nbsp;&nbsp;
+      <h4 class="ml-3">
+        DSE UPIIZ <br>
+        CONSTANCIAS
+      </h4>&nbsp;
+    </div>
+    
+    <!-- BOTÓN DESPLEGABLE -->
+    <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="background-color: #5A1236;">
+      <span class="fas fa-bars" style="color: white;"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">&nbsp;
+        <li class="nav-item active">
+          <a class="nav-link" href="dep-eventos" style="color: #5A1236;" align="center"><b><u>Eventos</u></b></a>
+        </li>&nbsp;
+        <li class="nav-item">
+          <a class="nav-link" href="dep-ponentes" style="color: #333333;" align="center"><b>Ponentes</b></a>
+        </li>&nbsp;
+        <li class="nav-item">
+          <a class="nav-link" href="dep-reportes" style="color: #333333;" align="center"><b>Estadísticas</b></a>
+        </li>&nbsp;&nbsp;
+        <li class="nav-item text-center">
+          <a href="dep-login" class="btn btn-success" (click)="salir()">Salir</a>
+        </li>&nbsp;&nbsp;
+      </ul>
+    </div>
+  </nav>
+  
+  <!----------------------------------------------------------- CONTENIDO DE LA PÁGINA ---------------------------------------------------------->
+  <div style="background-color: #f1f1f1;">
+    <main>
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 style="color: #5A1236;"><b>Eventos</b></h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <button type="button" class="btn btn-primary ml-auto" data-toggle="modal" data-target="#modalCrearEvento" (click)="clearChipsAndArray()">Crear evento</button>
+              </ol>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table #dataTable class="table table-bordered table-hover">
+                      <thead>
+                      <tr>
+                        <th>Fecha</th>
+                        <th style="width: 30%">Evento</th>
+                        <th>Horario</th>
+                        <th class="d-none d-md-table-cell">Área</th>
+                        <th class="d-none d-md-table-cell">Lugar</th>
+                        <th style="width: 10%">Acciones</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let evento of eventos">
+                          <td>{{ formatoFecha(evento.fecha_evento) }}</td>
+                          <td>{{ evento.nombre_evento }}</td>
+                          <td>{{ formatoHorario(evento.hora_inicio) }} - {{ formatoHorario(evento.hora_fin) }}</td>
+                          <td class="d-none d-md-table-cell">{{ evento.area }}</td>
+                          <td class="d-none d-md-table-cell">{{ evento.lugar }}</td>
+                          <td class="acciones-columna">
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-primary d-none d-sm-block rounded-0" (click)="consultarEventoId(evento)" data-toggle="modal" data-target="#modalVer">
+                                <span class="fas fa-eye"></span> Ver
+                              </button>&nbsp;&nbsp;
+                              <button type="button" class="btn btn-primary d-none d-sm-block rounded-0" (click)="consultarEventoId(evento)" data-toggle="modal" data-target="#modalEditar">
+                                <span class="fas fa-edit"></span> Editar
+                              </button>
+                              <button type="button" class="btn btn-primary d-block d-sm-none rounded-0" (click)="consultarEventoId(evento)" data-toggle="modal" data-target="#modalVer">
+                                <span class="fas fa-eye"></span>
+                              </button>&nbsp;&nbsp;
+                              <button type="button" class="btn btn-primary d-block d-sm-none rounded-0" (click)="consultarEventoId(evento)" data-toggle="modal" data-target="#modalEditar">
+                                <span class="fas fa-edit"></span>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>                     
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!----------------------------------------------------------- MODAL DE CREAR EVENTO ---------------------------------------------------------->
+  <div class="modal fade" id="modalCrearEvento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Crear evento</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #formularioEvento="ngForm">
+            <div class="form-group">
+              <label for="nombre">Nombre del evento</label>
+              <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre completo del evento" required [(ngModel)]="eventoCrear.nombre_evento" name="nombre" [ngClass]="{'campo-invalido': !eventoCrear.nombre_evento}">
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="fecha">Fecha del evento</label>
+                  <input type="date" class="form-control" id="fecha" placeholder="Ingrese la fecha" required [(ngModel)]="eventoCrear.fecha_evento" name="fecha" [ngClass]="{'campo-invalido': !eventoCrear.fecha_evento}">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="hora_inicio">Hora de inicio</label>
+                  <input type="time" class="form-control" id="hora_inicio" placeholder="Ingrese la hora de inicio" required [(ngModel)]="eventoCrear.hora_inicio" name="hora_inicio" [ngClass]="{'campo-invalido': !eventoCrear.hora_inicio}">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="hora_fin">Hora de fin</label>
+                  <input type="time" class="form-control" id="hora_fin" placeholder="Ingrese la hora de fin" required [(ngModel)]="eventoCrear.hora_fin" name="hora_fin" [ngClass]="{'campo-invalido': !eventoCrear.hora_fin}">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="duracion">Duración</label>
+                  <input type="number" class="form-control" id="duracion" placeholder="Ingrese el valor en horas del evento" required [(ngModel)]="eventoCrear.duracion" name="duracion" [ngClass]="{'campo-invalido': !eventoCrear.duracion}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="input">Ponente</label>
+              <div class="chips-container">
+                <div *ngFor="let ponente of arregloPonentesSeleccionados" class="chip">
+                  <div class="chip-text">{{ ponente }}</div>
+                  <button class="remove-button" (click)="eliminarPonente(ponente)">
+                    <svg viewBox="0 0 24 24" class="remove-icon">
+                      <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <input type="text" class="form-control" id="input" #campoPonentes (keydown)="handleKeydown($event)" (keyup)="handleKeyUp($event)" placeholder="Ingrese uno o más ponentes" required name="campoPonentes">
+              <div id="suggestion"></div>     
+              <p style="font-size: smaller;">Si el ponente no existe, dar clic en "Nuevo ponente"</p> 
+            </div>                       
+            <!-- BOTÓN DE NUEVO PONENTE -->
+            <div class="form-group">
+              <button type="button" class="btn btn-primary btn-sm" (click)="toggleCampos('crear')">
+                <span class="fas fa-plus"></span>&nbsp; {{ mostrarCampos ? 'Cancelar' : 'Nuevo ponente' }}
+              </button>
+            </div>
+            <div *ngIf="mostrarCampos" class="form-group tabulado linea-vertical" id="camposContenedor">
+              <div *ngIf="mostrarCampos" class="form-group tabulado" id="camposPonente">
+                <label for="nomPonente">Nombre del ponente</label>
+                <input type="text" class="form-control" id="nomPonente" #nomPonente placeholder="Ingrese el nombre del ponente" required name="nomPonente">
+              </div>
+              <div *ngIf="mostrarCampos" class="form-group tabulado" id="camposDependencia">
+                <label for="dependencia">Dependencia del ponente (opcional)</label>
+                <input type="text" class="form-control" id="dependencia" #dependencia placeholder="Ingrese el nombre de la dependencia de la que proviene el ponente (empresa, institución, organización)" name="dependencia">
+              </div>
+              <div *ngIf="mostrarCampos" class="form-group tabulado" id="botonConfirmacion">
+                <button type="button" class="btn btn-primary btn-sm" (click)="crearEditarPonente('crear')">Crear ponente</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lugar">Lugar</label>
+              <input type="text" class="form-control" id="lugar" placeholder="Ingrese el lugar donde se realizará el evento" required [(ngModel)]="eventoCrear.lugar" name="lugar" [ngClass]="{'campo-invalido': !eventoCrear.lugar}">
+            </div>
+            <div class="form-group" id="grupoArea">
+              <label for="area">Área que lo convoca</label>
+              <select class="form-control" id="area" placeholder="Seleccione el área que convoca el evento" [(ngModel)]="eventoCrear.area" name="area" [ngClass]="{'campo-invalido': !eventoCrear.area}">
+                <option value="" disabled selected hidden>Seleccione el área que convoca el evento</option>
+                <option value="Servicio Médico">Servicio Médico</option>
+                <option value="Orientación Juvenil">Orientación Juvenil</option>
+                <option value="Biblioteca">Biblioteca</option>
+                <option value="Modelo de Accesibilidad">Modelo de Accesibilidad</option>
+                <option value="Red de Género">Red de Género</option>
+                <option value="COSECOVI">COSECOVI</option>
+                <option value="Promotoría de la DDP">Promotoría de la DDP</option>
+                <option value="Unidad Interna de Protección Civil">Unidad Interna de Protección Civil</option>
+                <option value="Servicio Médico de Atención Prehospitalaria">Servicio Médico de Atención Prehospitalaria</option>
+                <option value="Deporte y cultura">Deporte y cultura</option>
+              </select>
+            </div>
+          </form>      
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="agregarEvento(formularioEvento)" [disabled]="!eventoCrear.nombre_evento || !eventoCrear.fecha_evento || !eventoCrear.hora_inicio || !eventoCrear.hora_fin || !eventoCrear.duracion || !eventoCrear.area || !eventoCrear.lugar">Crear evento</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!------------------------------------------------------------ MODAL DE VER EVENTO ---------------------------------------------------------->
+  <div class="modal fade" id="modalVer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="nombre_evento_ver">{{ eventoVer.nombre_evento }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="fecha">Fecha del evento</label>
+                  <input type="date" class="form-control" [(ngModel)]="eventoVer.fecha_evento" disabled name="fecha_evento">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="hora_inicio">Hora de inicio</label>
+                  <input type="time" class="form-control" [(ngModel)]="eventoVer.hora_inicio" disabled name="hora_inicio">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="hora_fin">Hora de fin</label>
+                  <input type="time" class="form-control" [(ngModel)]="eventoVer.hora_fin" disabled name="hora_fin">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="duracion">Duración</label>
+                  <input type="text" class="form-control" [value]="formatoDuracion(eventoVer.duracion)" disabled name="duracion">
+                </div>
+              </div>                        
+            </div>  
+            <div class="form-group">
+              <label for="ponente_ver">Ponente</label>
+              <input type="text" class="form-control" id="ponente_ver" [(ngModel)]="ponente_ver" value="Nombre del ponente" disabled name="ponente_ver">
+            </div>
+            <div class="form-group">
+              <label for="lugar">Lugar</label>
+              <input type="text" class="form-control" [(ngModel)]="eventoVer.lugar" disabled name="lugar">
+            </div>
+            <div class="form-group">
+              <label for="area">Área que lo convoca</label>
+              <input type="text" class="form-control" [(ngModel)]="eventoVer.area" disabled name="area">
+            </div>
+          </form>        
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="registrarAsistencia(eventoVer.id)">Registrar asistencia</button>
+        </div>        
+      </div>
+    </div>
+  </div>
+
+  <!----------------------------------------------------------- MODAL DE EDITAR EVENTO -------------------------------------------------------->
+  <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar evento</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="nombre_evento">Nombre del evento</label>
+              <input type="text" class="form-control" id="nombre_evento" placeholder="Ingrese el nombre completo del evento" [(ngModel)]="eventoVer.nombre_evento" [ngClass]="{'campo-invalido': !eventoVer.nombre_evento}" required name="nombre_evento">
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="fecha">Fecha del evento</label>
+                  <input type="date" class="form-control" id="fecha" placeholder="Ingrese la fecha" [(ngModel)]="eventoVer.fecha_evento" [ngClass]="{'campo-invalido': !eventoVer.fecha_evento}" required name="fecha">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="hora_inicio">Hora de inicio</label>
+                  <input type="time" class="form-control" id="hora_inicio" placeholder="Ingrese la hora de inicio" [(ngModel)]="eventoVer.hora_inicio" [ngClass]="{'campo-invalido': !eventoVer.hora_inicio}" required name="hora_inicio">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="hora_fin">Hora de fin</label>
+                  <input type="time" class="form-control" id="hora_fin" placeholder="Ingrese la hora de fin" [(ngModel)]="eventoVer.hora_fin" [ngClass]="{'campo-invalido': !eventoVer.hora_fin}" required name="hora_fin">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="duracion">Duración</label>
+                  <input type="number" class="form-control" id="duracion" placeholder="Ingrese el valor en horas del evento" [(ngModel)]="eventoVer.duracion" [ngClass]="{'campo-invalido': !eventoVer.duracion}" required name="duracion">
+                </div>
+              </div>                        
+            </div>
+            <div class="form-group">
+              <label for="input2">Ponente</label>
+              <div class="chips-container">
+                <div *ngFor="let ponente of arregloPonentesSeleccionados" class="chip">
+                  <div class="chip-text">{{ ponente }}</div>
+                  <button class="remove-button" (click)="eliminarPonente(ponente)">
+                    <svg viewBox="0 0 24 24" class="remove-icon">
+                      <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <input type="text" class="form-control" id="input2" #campoPonentes2 (keydown)="handleKeydown2($event)" (keyup)="handleKeyUp2($event)" placeholder="Ingrese uno o más ponentes" required name="campoPonentes2">
+              <div id="suggestion2"></div>     
+              <p style="font-size: smaller;">Si el ponente no existe, dar clic en "Nuevo ponente"</p> 
+            </div>      
+            <!-- BOTÓN DE NUEVO PONENTE -->
+            <div class="form-group">
+              <button type="button" class="btn btn-primary btn-sm" (click)="toggleCampos('editar')">
+                <span class="fas fa-plus"></span>&nbsp; {{ mostrarCampos ? 'Cancelar' : 'Nuevo ponente' }}
+              </button>
+            </div>
+            <div *ngIf="mostrarCampos" class="form-group tabulado linea-vertical" id="camposContenedor">
+              <div *ngIf="mostrarCampos" class="form-group tabulado" id="camposPonente">
+                <label for="nomPonenteAct">Nombre del ponente</label>
+                <input type="text" class="form-control" id="nomPonenteAct" #nomPonenteAct placeholder="Ingrese el nombre del ponente" required name="nomPonenteAct">
+              </div>
+              <div *ngIf="mostrarCampos" class="form-group tabulado" id="camposDependencia">
+                <label for="dependencia">Dependencia del ponente (opcional)</label>
+                <input type="text" class="form-control" id="dependencia" #dependenciaAct placeholder="Ingrese el nombre de la dependencia de la que proviene el ponente (empresa, institución, organización)" name="dependencia">
+              </div>
+              <div *ngIf="mostrarCampos" class="form-group tabulado" id="botonConfirmacion">
+                <button type="button" class="btn btn-primary btn-sm" (click)="crearEditarPonente('editar')">Crear ponente</button>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="lugar">Lugar</label>
+              <input type="text" class="form-control" id="lugar" placeholder="Ingrese el lugar donde se realizará el evento" [(ngModel)]="eventoVer.lugar" [ngClass]="{'campo-invalido': !eventoVer.lugar}" required name="lugar">
+            </div>
+            <div class="form-group" id="grupoArea">
+              <label for="area">Área que lo convoca</label>
+              <select class="form-control" id="area" placeholder="Seleccione el área que convoca el evento" [(ngModel)]="eventoVer.area" [ngClass]="{'campo-invalido': !eventoVer.area}" name="area">
+                <option value="" disabled selected hidden>Seleccione el área que convoca el evento</option>
+                <option value="Servicio Médico">Servicio Médico</option>
+                <option value="Orientación Juvenil">Orientación Juvenil</option>
+                <option value="Biblioteca">Biblioteca</option>
+                <option value="Modelo de Accesibilidad">Modelo de Accesibilidad</option>
+                <option value="Red de Género">Red de Género</option>
+                <option value="COSECOVI">COSECOVI</option>
+                <option value="Promotoría de la DDP">Promotoría de la DDP</option>
+                <option value="Unidad Interna de Protección Civil">Unidad Interna de Protección Civil</option>
+                <option value="Servicio Médico de Atención Prehospitalaria">Servicio Médico de Atención Prehospitalaria</option>
+                <option value="Deporte y cultura">Deporte y cultura</option>
+              </select>
+            </div>
+          </form>        
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="actualizarEvento(eventoVer)" [disabled]="!eventoVer.nombre_evento || !eventoVer.fecha_evento || !eventoVer.hora_inicio || !eventoVer.hora_fin || !eventoVer.duracion || !eventoVer.area || !eventoVer.lugar">Actualizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-------------------------------------------------------------- PIE DE PÁGINA -------------------------------------------------------------->
+  <footer class="footer">
+    <div class="container text-center">
+      <h6>Departamento de Servicios Estudiantiles UPIIZ</h6>
+      <div class="contact-info">
+        <div class="contact-item">
+          <span class="fas fa-envelope"></span>
+          dse_upiiz&#64;ipn.mx
+        </div>
+        <div class="contact-item">
+          <span class="fas fa-phone"></span>
+          Ext. 83516
+        </div>
+        <div class="contact-item">
+          <span class="fab fa-instagram"></span>
+          <a href="https://instagram.com/dseupiiz" target="_blank">dseupiiz</a>
+        </div>
+      </div>
+      <div class="footer-credits">
+        <small>&copy; 2024, Ana Paola Rebolloso Saucedo</small>
+      </div>
+    </div>
+  </footer>

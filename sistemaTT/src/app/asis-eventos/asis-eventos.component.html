@@ -1,0 +1,178 @@
+  <!--------------------------------------------------------------- ENCABEZADO ------------------------------------------------------------------>
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fff;">
+    <!-- LOGOS DEL IPN Y DE UPIIZ -->
+    <div class="d-flex align-items-center">&nbsp;&nbsp;&nbsp;
+      <img src="./assets/dist/img/logo-ipn-guinda.png" style="height: 60px;"/>&nbsp;&nbsp;
+      <img src="./assets/dist/img/logo-upiiz.png" style="height: 60px;"/>&nbsp;&nbsp;&nbsp;
+      <h4 class="ml-3">
+        DSE UPIIZ <br>
+        CONSTANCIAS
+      </h4>&nbsp;
+    </div>
+    
+    <!-- BOTÓN DESPLEGABLE -->
+    <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="background-color: #5A1236;">
+      <span class="fas fa-bars" style="color: white;"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">&nbsp;
+        <li class="nav-item active">
+          <a class="nav-link" href="asis-eventos" style="color: #5A1236;" align="center"><b><u>Eventos</u></b></a>
+        </li>&nbsp;&nbsp;
+        <li class="nav-item">
+          <a class="nav-link" href="asis-constancias" style="color: #333333;" align="center"><b>Constancias</b></a>
+        </li>&nbsp;&nbsp;&nbsp;&nbsp;
+        <li class="nav-item text-center">
+          <a href="asis-info-usuario" class="btn btn-success"><span class="fas fa-qrcode"></span> Código QR </a>
+        </li>&nbsp;&nbsp;
+        <li class="nav-item text-center">
+          <a href="asis-login" class="btn btn-success" (click)="salir()">Salir</a>
+        </li>&nbsp;&nbsp;
+      </ul>
+    </div>
+  </nav>
+  
+  <!----------------------------------------------------------- CONTENIDO DE LA PÁGINA ---------------------------------------------------------->
+  <div style="background-color: #f1f1f1;">
+    <main>
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-12">
+              <h1 style="color: #5A1236;"><b>Eventos próximos</b></h1>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table #dataTable class="table table-bordered table-hover">
+                      <thead>
+                      <tr>
+                        <th>Fecha</th>
+                        <th style="width: 30%">Evento</th>
+                        <th>Horario</th>
+                        <th class="d-none d-md-table-cell">Área</th>
+                        <th class="d-none d-md-table-cell">Lugar</th>
+                        <th style="width: 10%">Acciones</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let evento of eventos">
+                          <td>{{ formatoFecha(evento.fecha_evento) }}</td>
+                          <td>{{ evento.nombre_evento }}</td>
+                          <td>{{ formatoHorario(evento.hora_inicio) }} - {{ formatoHorario(evento.hora_fin) }}</td>
+                          <td class="d-none d-md-table-cell">{{ evento.area }}</td>
+                          <td class="d-none d-md-table-cell">{{ evento.lugar }}</td>
+                          <td class="acciones-columna">
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-primary d-none d-sm-block rounded-0" (click)="consultarEventoId(evento)" data-toggle="modal" data-target="#modalVer">
+                                <span class="fas fa-eye"></span> Detalles
+                              </button>
+                              <button type="button" class="btn btn-primary d-block d-sm-none rounded-0" (click)="consultarEventoId(evento)" data-toggle="modal" data-target="#modalVer">
+                                <span class="fas fa-eye"></span>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>                     
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!------------------------------------------------------------ MODAL DE VER EVENTO ---------------------------------------------------------->
+  <div class="modal fade" id="modalVer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{ eventoVer.nombre_evento }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="fecha">Fecha del evento</label>
+                  <input type="date" class="form-control" id="fecha" [(ngModel)]="eventoVer.fecha_evento" disabled name="fecha">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="hora_inicio">Hora de inicio</label>
+                  <input type="time" class="form-control" id="hora_inicio" [(ngModel)]="eventoVer.hora_inicio" disabled name="hora_inicio">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="hora_fin">Hora de fin</label>
+                  <input type="time" class="form-control" id="hora_fin" [(ngModel)]="eventoVer.hora_fin" disabled name="hora_fin">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="duracion">Duración</label>
+                  <input type="text" class="form-control" id="duracion" [value]="formatoDuracion(eventoVer.duracion)" disabled name="duracion">
+                </div>
+              </div>                        
+            </div>  
+            <div class="form-group">
+              <label for="ponente">Ponente</label>
+              <input type="text" class="form-control" id="ponente" [(ngModel)]="ponente" value="Nombre del ponente" disabled name="ponente">
+            </div>
+            <div class="form-group">
+              <label for="lugar">Lugar</label>
+              <input type="text" class="form-control" id="lugar" [(ngModel)]="eventoVer.lugar" disabled name="lugar">
+            </div>
+            <div class="form-group">
+              <label for="area">Área que lo convoca</label>
+              <input type="text" class="form-control" id="area" [(ngModel)]="eventoVer.area" disabled name="area">
+            </div>
+          </form>        
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-------------------------------------------------------------- PIE DE PÁGINA -------------------------------------------------------------->
+  <footer class="footer">
+    <div class="container text-center">
+      <h6>Departamento de Servicios Estudiantiles UPIIZ</h6>
+      <div class="contact-info">
+        <div class="contact-item">
+          <span class="fas fa-envelope"></span>
+          dse_upiiz&#64;ipn.mx
+        </div>
+        <div class="contact-item">
+          <span class="fas fa-phone"></span>
+          Ext. 83516
+        </div>
+        <div class="contact-item">
+          <span class="fab fa-instagram"></span>
+          <a href="https://instagram.com/dseupiiz" target="_blank">dseupiiz</a>
+        </div>
+      </div>
+      <div class="footer-credits">
+        <small>&copy; 2024, Ana Paola Rebolloso Saucedo</small>
+      </div>
+    </div>
+  </footer>

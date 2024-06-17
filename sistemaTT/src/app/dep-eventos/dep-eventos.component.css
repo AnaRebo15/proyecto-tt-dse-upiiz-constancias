@@ -1,0 +1,144 @@
+.tabulado {
+margin-left: 20px; /* Ajusta este valor según tus necesidades */
+}
+
+.linea-vertical {
+border-left: 2px solid #5A1236; /* Agrega un borde izquierdo */
+padding-left: 10px; /* Ajusta este valor según tus necesidades */
+}
+.acciones-columna {
+max-width: 200px; /* Cambia este valor según tus necesidades */
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+}
+
+#suggestion {
+    width: 100%; /* Ancho igual al input */
+    background-color: #fff; /* Color de fondo */
+    border: 1px solid #f1f1f1; /* Borde */
+    border-top: none; /* Elimina el borde superior */
+    border-radius: 0 0 5px 5px; /* Bordes redondeados solo en la parte inferior */
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+    max-height: 200px; /* Altura máxima para hacer scroll si es necesario */
+    overflow-y: auto; /* Habilita el scroll vertical si el contenido excede la altura máxima */
+}
+
+#suggestion ul {
+    list-style: none; /* Elimina los estilos de lista */
+    padding: 0; /* Elimina el relleno de la lista */
+    margin: 0; /* Elimina el margen de la lista */
+}
+
+#suggestion ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc; /* Borde entre cada sugerencia */
+}
+
+#suggestion ul li:last-child {
+    border-bottom: none; /* Elimina el borde inferior del último elemento */
+}
+
+#suggestion ul li:hover {
+    background-color: #f1f1f1; /* Cambia el color de fondo al pasar el ratón */
+}
+
+.campo-invalido {
+    border-color: #911828 !important;
+    background-color: #F4DEDE;
+}
+
+.chips-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .chip {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .chip-text {
+    margin-right: 5px;
+  }
+  
+  .remove-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 5px;
+  }
+  
+  .remove-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .footer {
+    background-color: #5B262E;
+    color: white;
+    padding: 20px 0;
+    width: 100%;
+  }
+  
+  .footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  
+  .footer h6 {
+    margin: 0 0 15px;
+    font-size: 1.2em;
+  }
+  
+  .footer .contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 50px; /* Separación grande entre los elementos */
+    font-size: 1em;
+    margin-bottom: 20px;
+  }
+  
+  .footer .contact-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .footer .contact-item span {
+    margin-right: 10px;
+  }
+  
+  .footer .contact-item a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .footer .footer-credits {
+    margin-top: 20px;
+    border-top: 1px solid #ffffff80; /* Borde superior translúcido */
+    padding-top: 10px;
+    font-size: 0.9em;
+    color: #d3d3d3; /* Color de texto más claro */
+  }
+  
+  .footer small {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.9em;
+  }
+  
+  @media (max-width: 768px) {
+    .contact-info {
+      flex-direction: column; /* Cambia la dirección del flexbox a column */
+    }
+    .contact-item {
+      margin-bottom: 1px; /* Agrega un espacio entre cada elemento */
+    }
+  }

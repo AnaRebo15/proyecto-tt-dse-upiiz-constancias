@@ -1,0 +1,96 @@
+.campo-invalido {
+    border-color: #911828 !important;
+    background-color: #F4DEDE;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  main {
+    flex: 1;
+    background-color: #f1f1f1;
+    overflow: auto;
+    padding: 20px; /* Ajusta según sea necesario */
+    min-height: calc(90vh - 10px); /* Ajusta según sea necesario */
+  }
+  .custom-alert {
+    background-color: #f1f1f1; /* Color de fondo similar al de los mensajes de alerta */
+    border: 1px solid #5a1236; /* Borde para resaltar el aviso */
+    padding: 5px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 0.8em; /* Tamaño del texto */
+    color: #5a1236; /* Color del texto */
+    text-align: center; /* Centrar el texto */
+    cursor: default; /* Cambiar el cursor para indicar que no es interactivo */
+  }
+  .footer {
+    background-color: #5B262E;
+    color: white;
+    padding: 20px 0;
+    width: 100%;
+  }
+  
+  .footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  
+  .footer h6 {
+    margin: 0 0 15px;
+    font-size: 1.2em;
+  }
+  
+  .footer .contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 50px; /* Separación grande entre los elementos */
+    font-size: 1em;
+    margin-bottom: 20px;
+  }
+  
+  .footer .contact-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .footer .contact-item span {
+    margin-right: 10px;
+  }
+  
+  .footer .contact-item a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .footer .footer-credits {
+    margin-top: 20px;
+    border-top: 1px solid #ffffff80; /* Borde superior translúcido */
+    padding-top: 10px;
+    font-size: 0.9em;
+    color: #d3d3d3; /* Color de texto más claro */
+  }
+  
+  .footer small {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.9em;
+  }
+  
+  .small-text {
+    font-size: 0.8em; /* Ajusta el tamaño del texto según tus preferencias */
+    color: #5A1236; /* Cambia el color del texto según tus preferencias */
+  }
+
+  @media (max-width: 768px) {
+    .contact-info {
+      flex-direction: column; /* Cambia la dirección del flexbox a column */
+    }
+    .contact-item {
+      margin-bottom: 1px; /* Agrega un espacio entre cada elemento */
+    }
+  }

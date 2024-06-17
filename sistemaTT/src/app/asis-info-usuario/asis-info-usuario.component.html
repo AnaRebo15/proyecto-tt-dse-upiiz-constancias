@@ -1,0 +1,206 @@
+  <!--------------------------------------------------------------- ENCABEZADO ------------------------------------------------------------------>
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fff;">
+    <!-- LOGOS DEL IPN Y DE UPIIZ -->
+    <div class="d-flex align-items-center">&nbsp;&nbsp;&nbsp;
+      <img src="./assets/dist/img/logo-ipn-guinda.png" style="height: 60px;"/>&nbsp;&nbsp;
+      <img src="./assets/dist/img/logo-upiiz.png" style="height: 60px;"/>&nbsp;&nbsp;&nbsp;
+      <h4 class="ml-3">
+        DSE UPIIZ <br>
+        CONSTANCIAS
+      </h4>&nbsp;
+    </div>
+    
+    <!-- BOTÓN DESPLEGABLE -->
+    <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="background-color: #5A1236;">
+        <span class="fas fa-bars" style="color: white;"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">&nbsp;
+          <li class="nav-item active">
+            <a class="nav-link" href="asis-eventos" style="color: #333333;" align="center"><b>Eventos</b></a>
+          </li>&nbsp;&nbsp;
+          <li class="nav-item">
+            <a class="nav-link" href="asis-constancias" style="color: #333333;" align="center"><b>Constancias</b></a>
+          </li>&nbsp;&nbsp;&nbsp;&nbsp;
+          <li class="nav-item text-center">
+            <a href="asis-info-usuario" class="btn btn-success"><span class="fas fa-qrcode"></span> Código QR </a>
+          </li>&nbsp;&nbsp;
+          <li class="nav-item text-center">
+            <a href="asis-login" class="btn btn-success" (click)="salir()">Salir</a>
+          </li>&nbsp;&nbsp;
+        </ul>
+      </div>
+    </nav>
+  
+  <!----------------------------------------------------------- CONTENIDO DE LA PÁGINA ---------------------------------------------------------->
+  <div style="background-color: #f1f1f1;">
+    <main>
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-12">
+              <h1 style="color: #5A1236;"><b>Información del usuario</b></h1>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <form >
+                    <div class="row">
+                      <!--ESPACIO DEL QR-->
+                      <div class="col-md-4">
+                        <div class="row">
+                          <div class="col-12" align="center">
+                            <h6>Utiliza este código QR para<br>registrar tu entrada y salida<br>para cada evento.</h6><br>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-2"></div>
+                          <div class="col-8" align="center">
+                            <img [src]="qrImageUrl" alt="Código QR" class="img-fluid d-block">
+                          </div>
+                          <div class="col-2"></div>
+                        </div>                                
+                        <div class="row">
+                          <div class="col-2"></div>
+                          <div class="col-8" align="center">
+                            <button type="button" class="btn btn-primary" style="margin-top: 20px; width: 100%;" (click)="descargarQR()">
+                              <span class="fas fa-download"></span> 
+                              DESCARGAR CÓDIGO QR
+                            </button>                                                                                   
+                          </div>
+                          <div class="col-2"></div>
+                        </div>                         
+                      </div>                        
+  
+                      <!--ESPACIO PARA DATOS-->
+                      <div class="col-md-8">
+                        <br>
+                        <div class="form-group">
+                            <label for="nombre_completo">Nombre completo</label>
+                            <input type="text" class="form-control" id="nombre_completo" [(ngModel)]="asistente.nombre_completo" [ngClass]="{'campo-invalido': !asistente.nombre_completo}" [disabled]="!editando" name="nombre_completo">
+                        </div>
+                        <div class="row">
+                          <div class="col-6">
+                            <div class="form-group">
+                              <label for="edad">Edad</label>
+                              <input type="number" class="form-control" id="edad" [(ngModel)]="asistente.edad" [ngClass]="{'campo-invalido': !asistente.edad}" [disabled]="!editando" name="edad">
+                            </div>
+                          </div>
+                          <div class="col-6">
+                            <div class="form-group">
+                                <label for="sexo">Sexo</label>
+                                <select class="form-control" id="sexo" [(ngModel)]="asistente.sexo" [ngClass]="{'campo-invalido': !asistente.sexo}" [disabled]="!editando" name="sexo">
+                                    <option value="Hombre">Hombre</option>
+                                    <option value="Mujer">Mujer</option>
+                                </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--DATOS DEPENDIENTES DEL TIPO DE USUARIO-->
+                        <!--Estudiante de la UPIIZ / CECyT 18-->
+                        <div *ngIf="tipoUsuario == 1">
+                            <div class="form-group">
+                                <label for="boleta">Número de boleta</label>
+                                <input type="text" class="form-control" id="boleta" [(ngModel)]="asistente.boleta" [ngClass]="{'campo-invalido': !asistente.boleta}" [disabled]="!editando" name="boleta">
+                            </div>
+                            <div class="form-group">
+                                <label for="programaAcademico">Programa académico</label>
+                                <select class="form-control" id="programaAcademico" [(ngModel)]="asistente.programa_academico" [ngClass]="{'campo-invalido': !asistente.programa_academico}" [disabled]="!editando" name="programa_academico">
+                                <option value="" disabled selected hidden>Elige la opción correspondiente</option>
+                                <option value="Ingeniería en Sistemas Computacionales">Ingeniería en Sistemas Computacionales</option>
+                                <option value="Ingeniería en Inteligencia Artificial">Ingeniería en Inteligencia Artificial</option>
+                                <option value="Ingeniería Mecatrónica">Ingeniería Mecatrónica</option>
+                                <option value="Ingeniería Metalúrgica">Ingeniería Metalúrgica</option>
+                                <option value="Ingeniería en Alimentos">Ingeniería en Alimentos</option>
+                                <option value="Ingeniería Ambiental">Ingeniería Ambiental</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!--Estudiante del CECyT 18-->
+                        <div *ngIf="tipoUsuario == 2">
+                            <div class="form-group">
+                                <label for="boletaCecyt">Número de boleta</label>
+                                <input type="text" class="form-control" id="boletaCecyt" [(ngModel)]="asistente.boleta" [ngClass]="{'campo-invalido': !asistente.boleta}" placeholder="Ingrese su número de boleta" [disabled]="!editando" name="boleta">
+                            </div>
+                        </div>
+                            
+                        <!--Empleado de la Unidad-->
+                        <div *ngIf="tipoUsuario == 3">
+                            <div class="form-group">
+                                <label for="numero_empleado">Número de empleado</label>
+                                <input type="text" class="form-control" id="numero_empleado" [(ngModel)]="asistente.numero_empleado" [ngClass]="{'campo-invalido': !asistente.numero_empleado}" placeholder="Ingrese su número de empleado" [disabled]="!editando" name="numero_empleado">
+                            </div>
+                            <div class="form-group">
+                                <label for="cargo">Cargo</label>
+                                <select class="form-control" id="cargo" [(ngModel)]="asistente.cargo" [ngClass]="{'campo-invalido': !asistente.cargo}" [disabled]="!editando" name="cargo">
+                                    <option value="" disabled selected hidden>Elige la opción correspondiente</option>
+                                    <option value="Docente">Docente</option>
+                                    <option value="Funcionario">Funcionario</option>
+                                    <option value="PAAE">PAAE</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!--Externo-->
+                        <div *ngIf="tipoUsuario == 4">
+                            <div class="form-group">
+                                <label for="dependencia">Dependencia de visita</label>
+                                <input type="text" class="form-control" id="dependencia" [(ngModel)]="asistente.dependencia" [ngClass]="{'campo-invalido': !asistente.dependencia}" [disabled]="!editando" name="dependencia" placeholder="Ingrese el nombre de la dependencia (institución, empresa, organización, etc.) desde la que nos visita">
+                            </div>
+                        </div>
+                        
+                        <br>
+                        <!-- BOTÓN -->
+                        <div align="right">
+                            <button type="submit" class="btn btn-primary" (click)="toggleEditar()" *ngIf="!editando">
+                                Editar información
+                            </button>
+                            <button type="submit" class="btn btn-primary" (click)="editarAsistente(asistente); toggleEditar()" *ngIf="editando">
+                                Guardar cambios
+                            </button>
+                        </div>
+                      </div>                  
+                    </div>
+                  </form>  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-------------------------------------------------------------- PIE DE PÁGINA -------------------------------------------------------------->
+  <footer class="footer">
+    <div class="container text-center">
+      <h6>Departamento de Servicios Estudiantiles UPIIZ</h6>
+      <div class="contact-info">
+        <div class="contact-item">
+          <span class="fas fa-envelope"></span>
+          dse_upiiz&#64;ipn.mx
+        </div>
+        <div class="contact-item">
+          <span class="fas fa-phone"></span>
+          Ext. 83516
+        </div>
+        <div class="contact-item">
+          <span class="fab fa-instagram"></span>
+          <a href="https://instagram.com/dseupiiz" target="_blank">dseupiiz</a>
+        </div>
+      </div>
+      <div class="footer-credits">
+        <small>&copy; 2024, Ana Paola Rebolloso Saucedo</small>
+      </div>
+    </div>
+  </footer>

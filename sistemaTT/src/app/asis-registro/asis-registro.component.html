@@ -1,0 +1,192 @@
+  <body>
+  <!--------------------------------------------------------------- ENCABEZADO ------------------------------------------------------------------>
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fff;">
+    <div class="d-flex align-items-center"><!-- Logos a la izquierda -->
+      <img src="./assets/dist/img/logo-ipn-guinda.png" style="height: 60px;"/>
+      <img src="./assets/dist/img/logo-upiiz.png" style="height: 60px;"/>
+    </div>
+    <div class="flex-grow-1 text-center"><!-- Contenedor centrado con crecimiento flexible -->
+      <h4 style="text-align: center;">
+        DSE UPIIZ <br>
+        CONSTANCIAS
+      </h4>
+    </div>
+    <div class="ml-auto"><!-- Botón a la derecha -->
+      <a href="asis-login" class="btn btn-primary">¿Ya estás<br>registrado?</a>
+    </div>
+  </nav>
+  
+  <!----------------------------------------------------------- CONTENIDO DE LA PÁGINA ---------------------------------------------------------->
+  <div style="background-color: #f1f1f1;">
+    <main>
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-12" style="text-align: center;">
+                <h1 style="color: #5A1236;"><b>Registro de usuario</b></h1>
+            </div>            
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <form #formularioAsistente="ngForm">
+                    <!-- Alerta -->
+                    <div class="alert-container">
+                      <div *ngIf="error" class="alert alert-danger alert-sm" role="alert">
+                        <span class="fas fa-exclamation-circle"></span> &nbsp;
+                        {{ error }}
+                      </div>
+                    </div>  
+                    <!--Formulario-->
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="correo">Correo electrónico</label>
+                        <input type="email" class="form-control" id="correo" name="correo" [(ngModel)]="asistente.correo" [ngClass]="{'campo-invalido': formularioEnviado && !asistente.correo}" placeholder="Ingrese su correo electrónico">
+                      </div>
+                      <div class="form-group">
+                        <label for="contrasena">Contraseña</label>
+                        <input type="password" class="form-control" id="contrasena" name="contrasena1" [(ngModel)]="asistente.contrasena1" [ngClass]="{'campo-invalido': (formularioEnviado && !asistente.contrasena1) || contrasenas}" placeholder="Ingrese una contraseña">
+                      </div>
+                      <div class="form-group">
+                        <label for="contrasena2">Confirmar contraseña</label>
+                        <input type="password" class="form-control" id="contrasena2" name="contrasena2" [(ngModel)]="asistente.contrasena2" [ngClass]="{'campo-invalido': (formularioEnviado && !asistente.contrasena2) || contrasenas}" placeholder="Confirme contraseña">
+                      </div>
+                      <div class="form-group">
+                        <label for="nombre">Nombre completo</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre_completo" [(ngModel)]="asistente.nombre_completo" [ngClass]="{'campo-invalido': formularioEnviado && !asistente.nombre_completo}" placeholder="Ingrese su nombre completo (Nombre(s), apellido paterno, apellido materno)">
+                      </div>
+                      <div class="row">
+                        <div class="col-md-5">
+                          <div class="form-group">
+                            <label for="edad">Edad</label>
+                            <input type="number" class="form-control" id="edad" name="edad" [(ngModel)]="asistente.edad" [ngClass]="{'campo-invalido': formularioEnviado && !asistente.edad}" placeholder="Introduzca su edad">
+                          </div>
+                        </div>
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group mb-3">
+                            <label for="sexo">Sexo</label>
+                            <div class="row">
+                              <div class="col">
+                                <div class="opciones-radio">
+                                  <div class="form-group">
+                                    <span class="opcion-radio">
+                                      <input type="radio" id="sexoh" name="sexo" [(ngModel)]="asistente.sexo" [value]="'Hombre'" checked>
+                                      <label for="sexoh">Hombre</label>
+                                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </span>
+                                    <span class="opcion-radio">
+                                        <input type="radio" id="sexom" name="sexo" [(ngModel)]="asistente.sexo" [value]="'Mujer'">
+                                        <label for="sexom">Mujer</label>
+                                    </span>                                 
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>                        
+                      </div>               
+                      <div class="form-group">
+                        <label for="tipoUsuario">¿A dónde perteneces?</label>
+                        <select class="form-control" id="tipoUsuario" name="tipo" (change)="mostrarCampos()" placeholder="Elige la opción correspondiente" [(ngModel)]="asistente.tipo" [ngClass]="{'campo-invalido': formularioEnviado && !asistente.tipo}">
+                          <option value="" disabled selected>Elige la opción correspondiente</option>
+                          <option value="alumnoUpiiz">Estudiante de la UPIIZ</option>
+                          <option value="alumnoCecyt">Estudiante del CECyT 18</option>
+                          <option value="empleado">Empleado de la Unidad</option>
+                          <option value="externo">Externo</option>
+                        </select>
+                      </div>
+                      
+                      <!-- PARA UPIIZ -->
+                      <div class="form-group" id="grupoBoletaUpiiz" style="display: none;">
+                        <label for="boletaUpiiz">Número de boleta</label>
+                        <input type="text" class="form-control" id="boletaUpiiz" [(ngModel)]="asistente.boletaUpiiz" [ngClass]="{'campo-invalido': formularioEnviado && !asistente.boletaUpiiz}" placeholder="Ingrese su número de boleta" name="boletaUpiiz">
+                      </div>
+                      <div class="form-group" id="grupoProgramaAcademico" style="display: none;">
+                        <label for="programaAcademico">Programa académico</label>
+                        <select class="form-control" id="programaAcademico" placeholder="Elige la opción correspondiente" [(ngModel)]="asistente.programa_academico" [ngClass]="{'campo-invalido': formularioEnviado && !asistente.programa_academico}" name="programa_academico">
+                          <option value="" disabled selected>Elige la opción correspondiente</option>
+                          <option value="Ingeniería en Sistemas Computacionales">Ingeniería en Sistemas Computacionales</option>
+                          <option value="Ingeniería en Inteligencia Artificial">Ingeniería en Inteligencia Artificial</option>
+                          <option value="Ingeniería Mecatrónica">Ingeniería Mecatrónica</option>
+                          <option value="Ingeniería Metalúrgica">Ingeniería Metalúrgica</option>
+                          <option value="Ingeniería en Alimentos">Ingeniería en Alimentos</option>
+                          <option value="Ingeniería Ambiental">Ingeniería Ambiental</option>
+                        </select>
+                      </div>
+
+                      <!-- PARA CECYT 18 -->
+                      <div class="form-group" id="grupoBoletaCecyt" style="display: none;">
+                        <label for="boletaCecyt">Número de boleta</label>
+                        <input type="text" class="form-control" id="boletaCecyt" [(ngModel)]="asistente.boletaCecyt" [ngClass]="{'campo-invalido': formularioEnviado && !asistente.boletaCecyt}" placeholder="Ingrese su número de boleta" name="boletaCecyt">
+                      </div>
+
+                      <!-- PARA EMPLEADO -->
+                      <div class="form-group" id="grupoNumeroEmpleado" style="display: none;">
+                        <label for="numeroEmpleado">Número de empleado</label>
+                        <input type="text" class="form-control" id="numeroEmpleado" name="numero_empleado" [(ngModel)]="asistente.numero_empleado" [ngClass]="{'campo-invalido': formularioEnviado && !asistente.numero_empleado}" placeholder="Ingrese su número de empleado">
+                      </div>
+                      <div class="form-group" id="grupoCargoEmpleado" style="display: none;">
+                        <label for="cargo">Cargo</label>
+                        <select class="form-control" id="cargo" placeholder="Elige la opción correspondiente" [(ngModel)]="asistente.cargo" [ngClass]="{'campo-invalido': formularioEnviado && !asistente.cargo}" name="cargo">
+                          <option value="" disabled selected>Elige la opción correspondiente</option>
+                          <option value="Docente">Docente</option>
+                          <option value="Funcionario">Funcionario</option>
+                          <option value="PAAE">PAAE</option>
+                        </select>
+                      </div>
+
+                      <!-- PARA EXTERNO -->
+                      <div class="form-group" id="grupoDependenciaExterno" style="display: none;">
+                        <label for="dependencia">Dependencia de visita</label>
+                        <input type="text" class="form-control" id="dependencia" name="dependencia" [(ngModel)]="asistente.dependencia" [ngClass]="{'campo-invalido': formularioEnviado && !asistente.dependencia}" placeholder="Ingrese el nombre de la dependencia (institución, empresa, organización, etc.) desde la que nos visita">
+                      </div>
+                      
+                      <!-- BOTÓN -->
+                      <div align="right">
+                        <button type="submit" class="btn btn-primary" (click)="crearAsistente(formularioAsistente)">Finalizar registro</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+      
+  </div>
+  
+  <!-------------------------------------------------------------- PIE DE PÁGINA -------------------------------------------------------------->
+  <footer class="footer">
+    <div class="container text-center">
+      <h6>Departamento de Servicios Estudiantiles UPIIZ</h6>
+      <div class="contact-info">
+        <div class="contact-item">
+          <span class="fas fa-envelope"></span>
+          dse_upiiz&#64;ipn.mx
+        </div>
+        <div class="contact-item">
+          <span class="fas fa-phone"></span>
+          Ext. 83516
+        </div>
+        <div class="contact-item">
+          <span class="fab fa-instagram"></span>
+          <a href="https://instagram.com/dseupiiz" target="_blank">dseupiiz</a>
+        </div>
+      </div>
+      <div class="footer-credits">
+        <small>&copy; 2024, Ana Paola Rebolloso Saucedo</small>
+      </div>
+    </div>
+  </footer>
+</body>

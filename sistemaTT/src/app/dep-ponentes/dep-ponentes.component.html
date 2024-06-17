@@ -1,0 +1,183 @@
+  <body>
+  <!--------------------------------------------------------------- ENCABEZADO ------------------------------------------------------------------>
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fff;">
+    <!-- LOGOS DEL IPN Y DE UPIIZ -->
+    <div class="d-flex align-items-center">&nbsp;&nbsp;&nbsp;
+      <img src="./assets/dist/img/logo-ipn-guinda.png" style="height: 60px;"/>&nbsp;&nbsp;
+      <img src="./assets/dist/img/logo-upiiz.png" style="height: 60px;"/>&nbsp;&nbsp;&nbsp;
+      <h4 class="ml-3">
+        DSE UPIIZ <br>
+        CONSTANCIAS
+      </h4>&nbsp;
+    </div>
+    
+    <!-- BOTÓN DESPLEGABLE -->
+    <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="background-color: #5A1236;">
+      <span class="fas fa-bars" style="color: white;"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">&nbsp;
+        <li class="nav-item active">
+          <a class="nav-link" href="dep-eventos" style="color: #333333;" align="center"><b>Eventos</b></a>
+        </li>&nbsp;
+        <li class="nav-item">
+          <a class="nav-link" href="dep-ponentes" style="color: #5A1236;" align="center"><b><u>Ponentes</u></b></a>
+        </li>&nbsp;
+        <li class="nav-item">
+          <a class="nav-link" href="dep-reportes" style="color: #333333;" align="center"><b>Estadísticas</b></a>
+        </li>&nbsp;&nbsp;
+        <li class="nav-item text-center">
+          <a href="dep-login" class="btn btn-success" (click)="salir()">Salir</a>
+        </li>&nbsp;&nbsp;
+      </ul>
+    </div>
+  </nav>
+  
+  <!----------------------------------------------------------- CONTENIDO DE LA PÁGINA ---------------------------------------------------------->
+  <div style="background-color: #f1f1f1;">
+    <main>
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-12">
+              <h1 style="color: #5A1236;"><b>Registro horas de ponentes</b></h1>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div [ngClass]="{'col-md-12': !ponenteConsultado, 'col-md-8': ponenteConsultado}">
+              <div class="card">
+                <div class="card-body">
+                  <!--Barra de busqueda de ponentes-->
+                  <label for="input">Ingrese el nombre del ponente</label>
+                  <input type="text" id="input" class="form-control" placeholder="Ingrese el nombre del ponente">
+                  <div id="suggestion"></div>     
+                  <br>           
+
+                  <div class="table-responsive">
+                    <table #dataTable class="table table-bordered table-hover">
+                      <thead>
+                      <tr>
+                        <th style="width: 25%">Fecha</th>
+                        <th>Evento</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let evento of eventos">
+                          <td>{{ formatoFecha(evento.fecha_evento) }}</td>
+                          <td>{{ evento.nombre_evento }}</td>
+                        </tr>                     
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4" *ngIf="ponenteConsultado">
+              <div class="card">
+                <div class="card-body">
+                  <form>
+                    <div class="form-group">
+                      <label for="nombrePonente">Nombre del ponente</label>
+                      <input type="text" class="form-control" id="nombrePonente" [(ngModel)]="ponenteVer.nombrePonente" disabled name="nombrePonente">
+                    </div>
+                    <div class="form-group">
+                      <label for="dependencia">Dependencia</label>
+                      <textarea class="form-control" id="dependencia" [(ngModel)]="ponenteVer.dependencia" disabled name="dependencia"></textarea>
+                    </div>
+                    <div class="form-group" align="right">
+                      <button type="button" class="btn btn-success ml-auto" data-toggle="modal" data-target="#modalEditarPonente" (click)="datosPonente()">Editar ponente</button>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="fechaInicio">Ingrese un período de tiempo</label><br>
+                      <div class="row">
+                          <div class="col-md-5">
+                              <input type="date" class="form-control" id="fechaInicio" [(ngModel)]="fechaInicio" placeholder="Ingrese la fecha de inicio" name="fechaInicio">
+                          </div>
+                          <div class="col-md-2 text-center">
+                              <p class="my-auto"> — </p>
+                          </div>
+                          <div class="col-md-5">
+                              <input type="date" class="form-control" id="fechaFin" [(ngModel)]="fechaFin" placeholder="Ingrese la fecha de fin" name="fechaFin">
+                          </div>
+                          <div class="col-12" align="center">
+                            <br>
+                            <button type="button" class="btn btn-primary" style="margin-top: 20px; width: 100%" (click)="calcularHorasPorPonente(ponenteVer.id, fechaInicio, fechaFin)">Buscar por periodo</button>
+                          </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="form-group" align="center">
+                      <h3><b>Horas totales</b></h3>
+                      <h1><b style="color: #5A1236; font-size: 60px;">{{ horasTotales }}</b></h1>
+                    </div>
+                  </form>    
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>    
+  </div>
+  
+  <!----------------------------------------------------------- MODAL DE EDITAR PONENTE -------------------------------------------------------->
+  <div class="modal fade" id="modalEditarPonente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar ponente</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="nombre">Nombre del ponente</label>
+              <input type="text" class="form-control" id="nombre" [(ngModel)]="ponenteEditar.nombre" placeholder="Ingrese el nombre del ponente" required name="nombre" [ngClass]="{'campo-invalido': !ponenteEditar.nombre}">
+            </div>
+            <div class="form-group">
+              <label for="dependencia">Dependencia del ponente (opcional)</label>
+              <input type="text" class="form-control" id="dependencia" [(ngModel)]="ponenteEditar.dependencia" placeholder="Ingrese el nombre de la dependencia de la que proviene el ponente (empresa, institución, organización)" required name="dependencia">
+            </div>
+          </form>        
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="editarPonente(ponenteEditar)" [disabled]="!ponenteEditar.nombre">Actualizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-------------------------------------------------------------- PIE DE PÁGINA -------------------------------------------------------------->
+  <footer class="footer">
+    <div class="container text-center">
+      <h6>Departamento de Servicios Estudiantiles UPIIZ</h6>
+      <div class="contact-info">
+        <div class="contact-item">
+          <span class="fas fa-envelope"></span>
+          dse_upiiz&#64;ipn.mx
+        </div>
+        <div class="contact-item">
+          <span class="fas fa-phone"></span>
+          Ext. 83516
+        </div>
+        <div class="contact-item">
+          <span class="fab fa-instagram"></span>
+          <a href="https://instagram.com/dseupiiz" target="_blank">dseupiiz</a>
+        </div>
+      </div>
+      <div class="footer-credits">
+        <small>&copy; 2024, Ana Paola Rebolloso Saucedo</small>
+      </div>
+    </div>
+  </footer>
+  </body>

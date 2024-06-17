@@ -1,0 +1,146 @@
+  <!--------------------------------------------------------------- ENCABEZADO ------------------------------------------------------------------>
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fff;">
+    <!-- LOGOS DEL IPN Y DE UPIIZ -->
+    <div class="d-flex align-items-center">&nbsp;&nbsp;&nbsp;
+      <img src="./assets/dist/img/logo-ipn-guinda.png" style="height: 60px;"/>&nbsp;&nbsp;
+      <img src="./assets/dist/img/logo-upiiz.png" style="height: 60px;"/>&nbsp;&nbsp;&nbsp;
+      <h4 class="ml-3">
+        DSE UPIIZ <br>
+        CONSTANCIAS
+      </h4>&nbsp;
+    </div>
+    
+    <!-- BOTÓN DESPLEGABLE -->
+    <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="background-color: #5A1236;">
+      <span class="fas fa-bars" style="color: white;"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">&nbsp;
+        <li class="nav-item active">
+          <a class="nav-link" href="dep-eventos" style="color: #333333;" align="center"><b>Eventos</b></a>
+        </li>&nbsp;
+        <li class="nav-item">
+          <a class="nav-link" href="dep-ponentes" style="color: #333333;" align="center"><b>Ponentes</b></a>
+        </li>&nbsp;
+        <li class="nav-item">
+          <a class="nav-link" href="dep-reportes" style="color: #333333;" align="center"><b>Estadísticas</b></a>
+        </li>&nbsp;&nbsp;
+        <li class="nav-item text-center">
+          <a href="dep-login" class="btn btn-success" (click)="salir()">Salir</a>
+        </li>&nbsp;&nbsp;
+      </ul>
+    </div>
+  </nav>
+  
+  <!----------------------------------------------------------- CONTENIDO DE LA PÁGINA ---------------------------------------------------------->
+  <div style="background-color: #f1f1f1;">
+    <main>
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-12">
+              <h1 style="color: #5A1236;"><b>Registrar asistencia</b></h1>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <form>
+                    <div class="row">
+                      <!--ESPACIO PARA VISTA DE CAMARA-->
+                      <div class="col-md-4">
+                        <div class="row">
+                          <div class="col-12" align="center">
+                              <h6>Para escanear los códigos QR,<br>por favor, permita el acceso a la cámara<br>y asegúrese de presionar el botón<br><b>Escanear QR</b> para activarla.</h6><br>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-2"></div>
+                          <div class="col-8" align="center">
+                            <div id="video-container" style="position: relative; width: 100%; height: 250px; background-color: #999999; background-image: url('../../assets/dist/img/arrow.png'); background-size: contain; background-position: center;">
+                              <video id="qr-video" style="width: 100%; height: 100%; object-fit: cover;"></video>
+                            </div>
+                          </div>
+                          <div class="col-2"></div>
+                        </div>                                
+                        <div class="row">
+                          <div class="col-2"></div>
+                          <div class="col-8" align="center">
+                            <button type="button" class="btn btn-primary" (click)="startScan()" style="margin-top: 20px; width: 100%; height: 50px;">Escanear QR</button>
+                          </div>
+                          <div class="col-2"></div>
+                        </div>                         
+                      </div>                                                                                  
+                  
+                      <!--ESPACIO PARA DATOS Y RESULTADO DEL ESCANEO-->
+                      <div class="col-md-8">
+                        <div class="form-group">
+                          <label for="nombre_evento">Nombre del evento</label>
+                          <input type="text" class="form-control" id="nombre_evento" [(ngModel)]="nombre_evento" disabled name="nombre_evento"><br>
+                        </div>
+
+                        <!--Datos obtenidos del código QR-->
+                        <div class="form-group" align="center">
+                          <h5 style="color: #5A1236;"><strong>{{ mensajeMostrado }}</strong></h5>
+                          <br>
+                        </div>        
+                        <div class="form-group">
+                          <label for="nombre_completo">Nombre del asistente</label>
+                          <input type="text" class="form-control" id="nombre_completo" [(ngModel)]="nombre_asistente" disabled name="nombre_completo">
+                        </div>
+                        <div class="row">
+                          <div class="col-6">
+                            <div class="form-group">
+                              <label for="horaEntrada">Hora de entrada</label>
+                              <input type="time" class="form-control" id="horaEntrada" [(ngModel)]="horaEntrada" disabled name="horaEntrada">
+                            </div>
+                          </div>
+                          <div class="col-6">
+                            <div class="form-group">
+                              <label for="horaSalida">Hora de salida</label>
+                              <input type="time" class="form-control" id="horaSalida" [(ngModel)]="horaSalida" disabled name="horaSalida">
+                            </div>
+                          </div>
+                        </div>
+                      </div>                  
+                    </div>
+                  </form>  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-------------------------------------------------------------- PIE DE PÁGINA -------------------------------------------------------------->
+  <footer class="footer">
+    <div class="container text-center">
+      <h6>Departamento de Servicios Estudiantiles UPIIZ</h6>
+      <div class="contact-info">
+        <div class="contact-item">
+          <span class="fas fa-envelope"></span>
+          dse_upiiz&#64;ipn.mx
+        </div>
+        <div class="contact-item">
+          <span class="fas fa-phone"></span>
+          Ext. 83516
+        </div>
+        <div class="contact-item">
+          <span class="fab fa-instagram"></span>
+          <a href="https://instagram.com/dseupiiz" target="_blank">dseupiiz</a>
+        </div>
+      </div>
+      <div class="footer-credits">
+        <small>&copy; 2024, Ana Paola Rebolloso Saucedo</small>
+      </div>
+    </div>
+  </footer>

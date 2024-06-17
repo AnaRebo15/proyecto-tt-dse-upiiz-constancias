@@ -1,0 +1,119 @@
+  <!--------------------------------------------------------------- ENCABEZADO ------------------------------------------------------------------>
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fff;">
+    <!-- LOGOS DEL IPN Y DE UPIIZ -->
+    <div class="d-flex align-items-center">&nbsp;&nbsp;&nbsp;
+      <img src="./assets/dist/img/logo-ipn-guinda.png" style="height: 60px;"/>&nbsp;&nbsp;
+      <img src="./assets/dist/img/logo-upiiz.png" style="height: 60px;"/>&nbsp;&nbsp;&nbsp;
+      <h4 class="ml-3">
+        DSE UPIIZ <br>
+        CONSTANCIAS
+      </h4>&nbsp;
+    </div>
+    
+    <!-- BOTÓN DESPLEGABLE -->
+    <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="background-color: #5A1236;">
+      <span class="fas fa-bars" style="color: white;"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">&nbsp;
+        <li class="nav-item active">
+          <a class="nav-link" href="asis-eventos" style="color: #333333;" align="center"><b>Eventos</b></a>
+        </li>&nbsp;&nbsp;
+        <li class="nav-item">
+          <a class="nav-link" href="asis-constancias" style="color: #5A1236;" align="center"><b><u>Constancias</u></b></a>
+        </li>&nbsp;&nbsp;&nbsp;&nbsp;
+        <li class="nav-item text-center">
+          <a href="asis-info-usuario" class="btn btn-success"><span class="fas fa-qrcode"></span> Código QR </a>
+        </li>&nbsp;&nbsp;
+        <li class="nav-item text-center">
+          <a href="asis-login" class="btn btn-success" (click)="salir()">Salir</a>
+        </li>&nbsp;&nbsp;
+      </ul>
+    </div>
+  </nav>
+  
+  <!----------------------------------------------------------- CONTENIDO DE LA PÁGINA ---------------------------------------------------------->
+  <div style="background-color: #f1f1f1;">
+    <main>
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 style="color: #5A1236;"><b>Constancias</b></h1>
+            </div>
+            <div class="col-sm-6" align="right">
+              <h4 style="color: #333333;"><b>Horas totales: {{horasTotales}}</b></h4>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table #dataTable class="table table-bordered table-hover">
+                      <thead>
+                      <tr>
+                        <th style="width: 10%">Fecha</th>
+                        <th style="width: 40%">Evento</th>
+                        <th class="d-none d-md-table-cell">Duración</th>
+                        <th>Acciones</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let evento of eventos">
+                          <td>{{ formatoFecha(evento.fecha_evento) }}</td>
+                          <td>{{ evento.nombre_evento }}</td>
+                          <td class="d-none d-md-table-cell">{{ formatoDuracion(evento.duracion) }}</td>
+                          <td class="acciones-columna">
+                            <div class="d-flex">
+                              <button type="button" class="btn btn-primary rounded-0 flex-fill" (click)="obtenerConstancia(evento)">Obtener constancia</button>
+                            </div>
+                          </td>
+                        </tr>                              
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  
+  <!-------------------------------------------------------------- PIE DE PÁGINA -------------------------------------------------------------->
+  <footer class="footer">
+    <div class="container text-center">
+      <h6>Departamento de Servicios Estudiantiles UPIIZ</h6>
+      <div class="contact-info">
+        <div class="contact-item">
+          <span class="fas fa-envelope"></span>
+          dse_upiiz&#64;ipn.mx
+        </div>
+        <div class="contact-item">
+          <span class="fas fa-phone"></span>
+          Ext. 83516
+        </div>
+        <div class="contact-item">
+          <span class="fab fa-instagram"></span>
+          <a href="https://instagram.com/dseupiiz" target="_blank">dseupiiz</a>
+        </div>
+      </div>
+      <div class="footer-credits">
+        <small>&copy; 2024, Ana Paola Rebolloso Saucedo</small>
+      </div>
+    </div>
+  </footer>
+  
+  
+  
+  
+  
+  
